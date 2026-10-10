@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySetu - Free Resources & AI Tutor</title>
+    <style>
+        :root { --primary: #4f46e5; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        header { background: var(--primary); color: white; padding: 1.5rem; text-align: center; }
+        main { flex: 1; max-width: 800px; width: 100%; margin: 2rem auto; padding: 0 1rem; box-sizing: border-box; }
+        .card { background: var(--card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        select, input, button { width: 100%; padding: 0.75rem; margin-top: 0.5rem; margin-bottom: 1rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+        button { background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; }
+        button:hover { opacity: 0.9; }
+        #chat-box { height: 250px; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; overflow-y: auto; background: #f1f5f9; margin-bottom: 1rem; }
+        .msg { margin-bottom: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 6px; max-width: 80%; }
+        .user-msg { background: #e0e7ff; margin-left: auto; text-align: right; }
+        .ai-msg { background: white; border: 1px solid #cbd5e1; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>StudySetu (स्टडी सेतु)</h1>
+        <p>Free Resources & Instant AI Doubt Solver for School & JEE</p>
+    </header>
+
+    <main>
+        <!-- Resource Section -->
+        <div class="card">
+            <h2>Select Your Category</h2>
+            <label for="category">Class / Exam:</label>
+            <select id="category">
+                <option value="nursery">Nursery & Primary</option>
+                <option value="middle">Class 6 - 10</option>
+                <option value="jee">JEE & NEET (Competitive)</option>
+            </select>
+            <button onclick="loadResources()">Find Free Notes & Links</button>
+            <div id="resource-output"></div>
+        </div>
+
+        <!-- AI Tutor Section -->
+        <div class="card">
+            <h2>AI Study Assistant</h2>
+            <div id="chat-box"></div>
+            <input type="text" id="user-input" placeholder="Ask a doubt (e.g., Explain Newton's laws)...">
+            <button onclick="askAI()">Ask AI</button>
+        </div>
+    </main>
+
+    <script>
+        function loadResources() {
+            const cat = document.getElementById('category').value;
+            const output = document.getElementById('resource-output');
+            let content = '<h3>Available Materials:</h3><ul>';
+            if (cat === 'jee') {
+                content += '<li><a href="https://ncert.nic.in/" target="_blank">NCERT Physics/Maths Textbooks</a></li>';
+                content += '<li><a href="https://www.nta.ac.in/" target="_blank">Previous Year JEE Papers & Solutions</a></li>';
+            } else {
+                content += '<li><a href="https://diksha.gov.in/" target="_blank">DIKSHA Portal Free Textbook & Worksheets</a></li>';
+                content += '<li><a href="https://ncert.nic.in/" target="_blank">NCERT Chapter Notes & Solutions</a></li>';
+            }
+            content += '</ul>';
+            output.innerHTML = content;
+        }
+
+        async function askAI() {
+            const inputField = document.getElementById('user-input');
+            const chatBox = document.getElementById('chat-box');
+            const query = inputField.value.trim();
+            if (!query) return;
+
+            chatBox.innerHTML += `<div class="msg user-msg">${query}</div>`;
+            inputField.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                chatBox.innerHTML += `<div class="msg ai-msg">StudySetu AI: Great question about "${query}". Focus on core concepts, practice numericals daily, and break down complex formulas step-by-step!</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
